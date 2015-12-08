@@ -1,0 +1,50 @@
+það er 10 milljón ratings 95 þúsund tags og 10681 mynd og 71þús notendur
+
+hver notandi rateaði minnsta kosti 20 myndir
+skjölin eru movies.dat,rating.dat,tags.dat
+
+1::Toy Story (1995)::Adventure|Animation|Children|Comedy|Fantasy
+
+gögnum er skip í
+
+fileinn er movies.dat og hver lína í skjalinu hefur formatið
+MovieID::Title::Genres
+Genres er skipt upp í  getur verið mörg genres skipt með |
+Action
+Adventure
+Animation
+Children's
+Comedy
+Crime
+Documentary
+Drama
+Fantasy
+Film-Noir
+Horror
+Musical
+Mystery
+Romance
+Sci-Fi
+Thriller
+War
+Western
+
+-gögn eru á  UTF-8 
+
+-öll stigagjöf eru í file sem  heitir rating.dat
+og hver lína af rating hefur formatið 
+UserID::MovieID::Rating::Timestamp
+
+tags data file structure
+- fileinn heitir tags.dat
+og hver lína af tags hefur formatið 
+UserID::MovieID::tags::Timestamp
+
+tags = er orð sem user gefur til að lýsa myndinni er oftast eitt orð eða value
+timestamp= sekóndur síðan það var miðnætti þegar gögnin voru slegin inn
+
+
+
+
+
+
