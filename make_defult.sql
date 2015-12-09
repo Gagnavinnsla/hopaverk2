@@ -6,30 +6,16 @@ create table movies (
 
  create table ratings ( 
  	user_id int ,
- 	movie_id int ,
- 	rating int ,
- 	timestamp int);
+ 	movie_id int REFERENCES movies(movie_id),
+ 	rating float 
+  	);
 
  create table tags (
  	user_id int ,
- 	movie_id int ,
- 	tag varchar(255),
- 	timestamp int
- 	);
+ 	movie_id int REFERENCES movies(movie_id),
+ 	tag varchar(255)
+  	);
 
-LOAD DATA LOCAL INFILE 'movies.sql'
-INTO TABLE movies
-FIELDS TERMINATED BY '::'
-LINES TERMINATED by '\n'
 
-load DATA INFILE 'ratings.dat'
-into table ratings
-Fields Terminated by '::'
-LINES Terminated by '\n'
-
-load DATA INFILE 'tags.dat'
-into table tags
-Fields Terminated by '::'
-LINES Terminated by '\n'
 
 
