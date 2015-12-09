@@ -1,0 +1,38 @@
+import pandas as pd 
+import psycopg2
+import getpass
+
+
+host = 'localhost'
+dbname = 'movies'
+
+username = 'postgres'
+pw = 'postgres'
+conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(host, dbname, username, pw)
+
+print("Connecting to database {}.{} as {}".format(host, dbname, username))
+
+conn = psycopg2.connect(conn_string)
+
+cursor = conn.cursor()
+
+print("Connected!\n")
+
+file=open('movies.dat','r',encoding='utf8')
+movies=file.read().replace('\n','::').split('::')[:-1]
+for i in range(int(len(movies)/3)):
+	command="""insert into movies (movie_id, title, genres) values ('{}', '{}', '{}')\n""".format(movies[3*i],movies[3*i+1].replace("'","''"),movies[3*i+2])
+	cursor.execute(command)
+file.close()
+
+
+print('Brace yourself')
+
+file=open('ratings.dat','r',encoding='utf8')
+rating=file.read().replace('\n','::').split('::')[:-1]
+for i in range(int(len(rating)/3)):
+	command="""insert into ratings (movie_id, user_id, rating) values ('{}', '{}', '{}')\n""".format(rating[3*i],rating[3*i+1],rating[3*i+2])
+	cursor.execute(command)
+file.close()
+
+
