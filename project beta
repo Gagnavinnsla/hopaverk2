@@ -32,7 +32,6 @@ file=open('ratings.dat','r',encoding='utf8')
 rating=file.read().replace('\n','::').split('::')[:-1]
 for i in range(int(len(rating)/4)):
 	command="""insert into ratings (movie_id, user_id, rating) values ('{}', '{}', '{}')\n""".format(rating[4*i+1],rating[4*i],rating[4*i+2])
-	print command
 	cursor.execute(command)
 file.close()
 
