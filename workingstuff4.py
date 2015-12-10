@@ -23,7 +23,7 @@ def movie():
 	Reynduaftur=True
 	while Reynduaftur==True:
 		while Bool==False:
-				Movie=str(input('\nSláðu inn nafnið á mynd sem þér líkar: '))
+				Movie=str(input('\nSláðu inn nafnið á mynd sem þér líkar: ')).replace("'","''")
 				x="""select * from movies where ((lower(title))) like lower('%{}%')""".format(Movie)
 				cursor.execute(x)
 				F=cursor.fetchall()
@@ -40,7 +40,7 @@ def movie():
 				print(i+1,'Velja aðra mynd')
 				Tmp=int(input())
 			F=F[Tmp][1].replace("'","''")
-			print(F)
+			print(F.replace("''","'"))
 			x="""select movie_id from movies where title like '{}'""".format(F)
 			cursor.execute(x)
 			Reynduaftur=False
@@ -65,16 +65,29 @@ from movies natural join ratings
 where rating > 3.5 and movie_id in ({})
 GROUP BY user_id
 ORDER BY count(user_id) desc, avg(rating) desc
-limit 50;
-
+limit 50
+;
+select ln.user_id as Notandi_nr, count(movie_id) as Fjöldi_einkunna, ntile(4)
+over (ORDER BY count(movie_id) ASC)
+from likir_notendur ln join ratings r
+    on r.user_id=ln.user_id
+GROUP BY ln.user_id
+""".format(N).replace('[','').replace(']','')
+cursor.execute(x)
+L=[]
+F=cursor.fetchall()
+for i in range(len(F)):
+	L.append(F[i][0])
+	
+"""	
 select title, avg(rating), count(title)
 from likir_notendur natural join ratings natural join movies
 where movie_id not in ({})
 GROUP BY title
-HAVING avg(rating)>4
-Order By count(title) DESC, avg(rating) DESC
+with (avg(rating)>4 and count(title) BETWEEN {} and {}
+Order By count(title) DESC, avg(rating)
 limit 10
-""".format(N,N).replace('[','').replace(']','')
+""".format(N,x,y).replace('[','').replace(']','')
 cursor.execute(x)
 L=[]
 F=cursor.fetchall()
@@ -82,7 +95,7 @@ for i in range(len(F)):
 	L.append(F[i][0])
 print('___________________________________________\n')
 print('Við mælum með: \n')
-[print(i,L[i],'\n') for i in range(len(L))]
+[print(L[i],'\n') for i in range(len(L))]
 
 
 conn.commit()
