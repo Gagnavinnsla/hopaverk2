@@ -15,8 +15,6 @@ conn = psycopg2.connect(conn_string)
 
 cursor = conn.cursor()
 
-print("Connected!\n")
-
 def movie():
 
 	Bool=False
@@ -47,14 +45,27 @@ def movie():
 		except IndexError:
 			print('Ósátt/-ur með valmöguleikana?')
 			return
+		except ValueError:
+			print('Þetta á væntanlega að vera heiltala...\n')
 	return cursor.fetchall()
-
-		
-x = int(input('Hversu margar myndir viltu lesa inn: '))
+	
+Bool=True
+while Bool:
+	try:		
+		x = int(input('Hversu margar myndir viltu lesa inn: '))
+		Bool=False
+	except ValueError:
+		print('Þetta á væntanlega að vera heiltala...\n')
 L=[]
 N=[]
-for i in range(x):
-	L.append(movie())
+i=0
+while i<x:
+	M=movie()
+	if M not in L:
+		L.append(M)
+		i+=1
+	else:
+		print('Þú ert búinn að velja þess mynd, reyndu aftur:')
 for i in range(len(L)):
 	N.append(L[i][0][0])
 
@@ -76,18 +87,29 @@ GROUP BY ln.user_id
 cursor.execute(x)
 L=[]
 F=cursor.fetchall()
-for i in range(len(F)):
-	L.append(F[i][0])
-	
-"""	
+Bool1=False
+Bool2=False
+i=0
+while Bool1==False:
+	if Bool2==False and F[i][2]==2:
+		Q2=F[i][1]
+		Bool2=True
+	if F[i][2]==4:
+		Q3=F[i-1][1]
+		Bool1=True
+	i+=1
+IQR=(Q3-Q2)*1.5
+Q2-=IQR
+Q3+=IQR	
+x="""	
 select title, avg(rating), count(title)
 from likir_notendur natural join ratings natural join movies
 where movie_id not in ({})
 GROUP BY title
-with (avg(rating)>4 and count(title) BETWEEN {} and {}
+having avg(rating)>4 and count(title) BETWEEN {} and {}
 Order By count(title) DESC, avg(rating)
 limit 10
-""".format(N,x,y).replace('[','').replace(']','')
+""".format(N,Q2,Q3).replace('[','').replace(']','')
 cursor.execute(x)
 L=[]
 F=cursor.fetchall()
