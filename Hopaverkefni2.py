@@ -31,7 +31,7 @@ def movie():
 		try:
 			MyndNR=0
 			if len(F)>1:
-				print('Fleiri en ein mynd er með þetta nafn, hverja af þessum myndum ert þú að tala um ')
+				print('Fleiri en ein mynd er með þetta nafn, hverja af þessum myndum ert þú að tala um? ')
 				for i in range(len(F)):
 					print(i,F[i][1])
 				print(i+1,'Velja aðra mynd')
@@ -44,10 +44,10 @@ def movie():
 		except IndexError:
 			print('Ósátt/-ur með valmöguleikana?')
 		except ValueError:
-			print('Þetta á væntanlega að vera heiltala...\n')
+			print('Þetta á að vera heiltala...\n')
 	return cursor.fetchall()[0][0]
 
-#movie fallið finnur nafn á myndinni og skilar movie_id, og endurtekur ef einhverjar eðlilegar villur gerast.
+#movie fallið finnur nafn á myndinni og skilar movie_id, og endurtekur ef einhverjar eðlilegar villur gerast
 
 Bool=True
 while Bool:
@@ -55,7 +55,7 @@ while Bool:
 		x = int(input('Hversu margar myndir viltu lesa inn: '))
 		Bool=False
 	except ValueError:
-		print('Þetta á væntanlega að vera heiltala...\n')
+		print('Þetta á að vera heiltala...\n')
 
 Movie_id=[]
 i=0
@@ -86,7 +86,7 @@ GROUP BY ln.user_id
 cursor.execute(x)
 
 #SQL skipunin byrjar á að búa til view (svo við getum notað gögnin í öllum SQL skipunum)
-#Í fyrri hluta skipunarinnar finnum við top 50 notendurnar sem hafa séð myndirnar sem við
+#Í fyrri hluta skipunarinnar finnum við topp 50 notendurna sem hafa séð myndirnar sem við
 #völdum og hafa gefið þeim einkunn yfir 3.5
 #Í seinni hlutanum finnum við hversu margar myndir þessir notendur hafa gefið einkunn ásamt
 #því að skipta listanum niður í Quartiles eftir þeim fjölda
