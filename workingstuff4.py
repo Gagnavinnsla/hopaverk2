@@ -16,10 +16,9 @@ conn = psycopg2.connect(conn_string)
 cursor = conn.cursor()
 
 def movie():
-
-	Bool=False
 	Reynduaftur=True
 	while Reynduaftur==True:
+		Bool=False
 		while Bool==False:
 				Movie=str(input('\nSláðu inn nafnið á mynd sem þér líkar: ')).replace("'","''")
 				x="""select * from movies where ((lower(title))) like lower('%{}%')""".format(Movie)
@@ -44,11 +43,10 @@ def movie():
 			Reynduaftur=False
 		except IndexError:
 			print('Ósátt/-ur með valmöguleikana?')
-			return
 		except ValueError:
 			print('Þetta á væntanlega að vera heiltala...\n')
 	return cursor.fetchall()
-	
+
 Bool=True
 while Bool:
 	try:		
@@ -66,6 +64,7 @@ while i<x:
 		i+=1
 	else:
 		print('Þú ert búinn að velja þess mynd, reyndu aftur:')
+	print(i)
 for i in range(len(L)):
 	N.append(L[i][0][0])
 
@@ -118,7 +117,6 @@ for i in range(len(F)):
 print('___________________________________________\n')
 print('Við mælum með: \n')
 [print(L[i],'\n') for i in range(len(L))]
-
 
 conn.commit()
 cursor.close()
